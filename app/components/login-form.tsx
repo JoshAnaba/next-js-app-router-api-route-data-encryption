@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-
+import { encrypt, decrypt } from "@/app/actions";
 interface LoginDataType {
   email: string;
   password: string;
@@ -24,35 +24,19 @@ const LoginForm = () => {
   const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch('/api/encrypt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-    setEncrptedData(result.data)
+    const response = await encrypt(payload);
     setPayload({
       email: '',
       password: '',
     })
+    setEncrptedData(response)
     setCurrentStep('DECRYPT');
   };
   const handleSubmit2 = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch('/api/decrypt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(encryptedData),
-    });
-
-    const result = await response.json();
-    setPayload(result.data)
+    const response = await decrypt(encryptedData);
+    setPayload(response)
     setCurrentStep('ENCRYPT');
   };
   return (
