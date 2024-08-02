@@ -3,12 +3,12 @@ import functions from "@/utils/functions"
 
 const {encryptData, decryptData} = functions
 
-const secretKey = process.env.SECRET_KEY
+const encryptionKey = process.env.ENCRYPTION_KEY
 
 export async function encrypt (val:any) {
-  return encryptData(val, secretKey as string)
+  return encryptData(val, encryptionKey as string)
 }
 
 export async function decrypt (val:any) {
-  return decryptData(val, secretKey as string)
+  return decryptData(val, encryptionKey as string)
 }
